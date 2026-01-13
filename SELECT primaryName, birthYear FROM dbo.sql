@@ -1,6 +1,6 @@
 WITH nbActorByFilm (nbActors, idFilm)
 AS (
-    SELECT COUNT(idArtist), idFilm
+    SELECT COUNT(DISTINCT idArtist), idFilm
     FROM tJob
     WHERE category='acted in'
     GROUP BY idFilm

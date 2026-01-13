@@ -57,6 +57,19 @@ JOIN tJob j ON a.idArtist = j.idArtist
 GROUP BY a.idArtist, a.primaryName
 HAVING COUNT(DISTINCT j.category) > 1;
 
+--Exercice 7 : résultats : 825 Forest Road	10, Snow White and the 7 Dwarfs	10
+WITH nbActorByFilm (nbActors, idFilm)
+AS (
+    SELECT COUNT(DISTINCT idArtist), idFilm
+    FROM tJob
+    WHERE category='acted in'
+    GROUP BY idFilm
+)
+SELECT f.primaryTitle, nb.nbActors
+FROM tFilm AS f
+JOIN nbActorByFilm AS nb ON f.idFilm = nb.idFilm
+WHERE nb.nbActors = (SELECT MAX(nbActors) FROM nbActorByFilm)
+
 --Exercice 8 : résultats : 2	Rami Malek	The Amateur, 2	Mel Gibson	Flight Risk
 SELECT COUNT(DISTINCT j.category) AS nbRespo, primaryName, primaryTitle
 FROM tArtist a

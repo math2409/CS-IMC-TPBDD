@@ -1,0 +1,39 @@
+Exercice 1: Crée un Artist Mathias puis vérifie sa présence
+CREATE (Mathias:Artist {primaryName: 'Mathias Thirion', birthYear: 1000, idArtist: 'nm123456789123456789'})
+
+MATCH (Mathias:Artist {primaryName: 'Mathias Thirion', birthYear: 1000, idArtist: 'nm123456789123456789'}) RETURN Mathias;
+
+Exercice 2: Crée le film au titre donné
+CREATE (n:Film {primaryTitle: "L'histoire de mon 20 au cours Infrastructure de donnees", startYear: 2025, idFilm: "tt123456789123456789"})
+
+Exercice 3: trouve les noeuds correspondant à l'artiste et au film recherché,
+puis crée la relation acted_in
+MATCH (Mathias:Artist), (Infra:Film)
+WHERE Mathias.primaryName = 'Mathias Thirion' AND Infra.primaryTitle = "L'histoire de mon 20 au cours Infrastructure de donnees"
+CREATE (Mathias)-[r:acted_in]->(Infra)
+RETURN type(r);
+
+Exercice 4: récupère le noeud correspondant au film, puis crée deux Artist et deux relations directed vers le film
+MATCH (Infra:Film)
+WHERE Infra.primaryTitle = "L'histoire de mon 20 au cours Infrastructure de donnees"
+CREATE (Luc:Artist {birthYear: 200, primaryName: 'Luc Vo Van', idArtist: "nm456789123456"})-[r1:directed]->(Infra)<-[r2:directed]-(Francesca:Artist {birthYear: 300, primaryName: "Francesca Bugiotti", idArtist: "nm789456123456"})
+
+Exercice 5: trouve le noeud correspondant, l'affiche, et affiche également (en vue table) sa date de naissance (1967)
+MATCH (Nicole:Artist)
+WHERE Nicole.primaryName = 'Nicole Kidman'
+RETURN Nicole, Nicole.birthYear;
+
+Exercice 6: Affiche tous les noeuds ayant le label Film
+MATCH (n:Film) RETURN n;
+
+Exercice 7: filtre les artistes sur leur année de naissance (1 "Helen Hunt" 2 "Mike Myers"...)
+MATCH (n:Artist)
+WHERE n.birthYear = 1963
+RETURN n.primaryName;
+
+Affiche ensuite le nombre d'artistes avec une aggrégation (résultat 222)
+MATCH (n:Artist)
+WHERE n.birthYear = 1963
+RETURN count(n);
+
+Exercice 8: 

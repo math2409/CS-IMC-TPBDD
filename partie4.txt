@@ -52,3 +52,13 @@ nombre de responsabilités différentes par film par acteurs
 MATCH (a:Artist)-[r]->(f:Film)
 WITH a, f, count(DISTINCT r) AS respo WHERE respo > 1
 RETURN a.primaryName, f.primaryTitle, respo;
+
+Exercice 11: Calcule le nombre d’acteurs distincts par film, puis détermine le maximum de ces valeurs,
+récupère ensuite le ou les films dont le nombre d’acteurs est égal à ce maximum.
+MATCH (a:Artist)-[:acted_in]->(f:Film)
+WITH f, count(DISTINCT a) AS nbActor
+WITH max(nbActor) AS maxActors
+MATCH (a:Artist)-[:acted_in]->(f:Film)
+WITH f, count(DISTINCT a) AS nbActor, maxActors
+WHERE nbActor = maxActors
+RETURN f.primaryTitle, nbActor;

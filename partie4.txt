@@ -36,4 +36,19 @@ MATCH (n:Artist)
 WHERE n.birthYear = 1963
 RETURN count(n);
 
-Exercice 8: 
+Exercice 8: Récupère les artistes avec la relation acted_in, compte le nombre de films par acteurs,
+puis filtre l'aggrégation pour ne retenir que ceux qui ont joué dans plus d'un film
+MATCH (a:Artist)-[r:acted_in]->(f:Film)
+WITH a, count(DISTINCT f.idFilm) AS nbFilms WHERE nbFilms > 1
+RETURN a.primaryName, nbFilms
+
+Exercice 9: Récupère les relations des artistes (leurs responsabilités), les comptent, puis filtre ceux qui n'en ont eu qu'une seule
+MATCH (a:Artist)-[r]->()
+WITH a, count(DISTINCT r) AS respo WHERE respo > 1
+RETURN a.primaryName, respo;
+
+Exercice 10: Similaire à la précédente, on ajoute simplement les films en clé pour l'aggrégation, ce qui permet de compter le
+nombre de responsabilités différentes par film par acteurs
+MATCH (a:Artist)-[r]->(f:Film)
+WITH a, f, count(DISTINCT r) AS respo WHERE respo > 1
+RETURN a.primaryName, f.primaryTitle, respo;

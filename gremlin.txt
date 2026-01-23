@@ -1,0 +1,79 @@
+Exercice 1: Annonce ajouter un artiste puis lui donne ses propriétés
+g.addV('Artist')
+ .property('pk', 'nm123456789')
+ .property('id', 'nm123456789')
+ .property('primaryName', 'Mathias Thirion')
+ .property('birthYear', 200)
+
+ Cherche pour le label artist mon nom
+ g.V()
+ .hasLabel('Artist')
+ .has('primaryName', 'Mathias Thirion')
+
+ Exercice 2: Annonce ajouter un film puis lui donne ses propriétés
+ g.addV('Film')
+ .property('pk', 'tt123456789')
+ .property('id', 'tt123456789')
+ .property('primaryTitle', "L'histoire de mon 20 au cours Infrastructure de donnees")
+ .property('birthYear', 2025)
+
+Exercice 3: récupère l'artiste, ajoute la relation, puis précise le noeud d'arrivée
+g.V()
+ .hasLabel('Artist')
+ .has('primaryName', 'Mathias Thirion')
+ .addE('acted in')
+ .to(g.V().hasLabel('Film').has('primaryTitle', "L'histoire de mon 20 au cours Infrastructure de donnees"))
+
+ Exercice 4: ajoute les deux artistes, puis crée les relations comme précédemment
+g.addV('Artist')
+ .property('pk', 'nm4944475644')
+ .property('id', 'nm4944475644')
+ .property('primaryName', 'Luc Vo Van')
+ .property('birthYear', 300)
+
+ g.addV('Artist')
+ .property('pk', 'nm13546561651665')
+ .property('id', 'nm13546561651665')
+ .property('primaryName', 'Francesca Bugiotti')
+ .property('birthYear', 400)
+
+g.V()
+ .hasLabel('Artist')
+ .has('primaryName', 'Luc Vo Van')
+ .addE('DIRECTED')
+ .to(g.V().hasLabel('Film').has('primaryTitle', "L'histoire de mon 20 au cours Infrastructure de donnees"))
+
+ g.V()
+ .hasLabel('Artist')
+ .has('primaryName', 'Francesca Bugiotti')
+ .addE('directed')
+ .to(g.V().hasLabel('Film').has('primaryTitle', "L'histoire de mon 20 au cours Infrastructure de donnees"))
+
+ Exercice 5: Filtre le nom d'artist pour afficher le noeud de Nicole Kidman
+ g.V()
+ .hasLabel('Artist')
+ .has('primaryName', 'Nicole Kidman')
+
+ On ajoute un valueMap pour afficher l'année de naissance
+ g.V()
+ .hasLabel('Artist')
+ .has('primaryName', 'Nicole Kidman')
+ .valueMap('primaryName','birthYear')
+
+Exercice 6: Filtre pour n'afficher que les labels film
+g.V()
+ .hasLabel('Film')
+
+ Exercice 7: Filtre les artistes nés en 1963, puis ne garde que la propriété nom
+ g.V()
+ .hasLabel('Artist')
+ .has('birthYear',1963)
+ .values('primaryName')
+
+ Avec la même requête de base, récupère le nombre de lignes
+ g.V()
+ .hasLabel('Artist')
+ .has('birthYear',1963)
+ .count()
+
+ 

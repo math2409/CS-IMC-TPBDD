@@ -76,4 +76,29 @@ g.V()
  .has('birthYear',1963)
  .count()
 
- 
+ Exercice 8: Filtre les artists sur le nombre de relations sortantes (de artist vers film) en ne gardant que ceux qui ont un nombre de relation
+ supérieur à 1, et en supprimant les duplicates
+g.V()
+ .hasLabel('Artist')
+ .where(__.out('acted in').dedup().count().is(gt(1)))
+
+ Exercice 9: récupère les relations, puis leurs labels (acted in, directed...), supprimes les duplicates, puis filte les artistes n'ayant qu'un type de relation
+ g.V()
+ .hasLabel('Artist')
+ .where(__.outE().label().dedup().count().is(gt(1)))
+
+Exercice 10: Sélectionne chaque artiste (a) et chaque film (f) associé via une relation sortante.
+Ensuite, ne garde que les artistes ayant plus d’une arête vers le même film (plusieurs rôles).
+Enfin, on affiche le nom de l’artiste et le titre du film.
+g.V()
+ .hasLabel('Artist')
+ .as('a')
+ .outE()
+ .as('e1')
+ .inV()
+ .as('f')
+ .select('a','f')
+ .where(__.select('a').outE().inV().where(__.is('f')).count().is(gt(1)))
+ .select('a','f')
+ .by('primaryName')
+ .by('primaryTitle')
